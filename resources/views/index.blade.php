@@ -159,12 +159,12 @@
         <div class="py-8">
             <!-- Logos with Google-inspired styling -->
             <div class="flex flex-col items-center">
-                <img src="DECIMER.gif" alt="DECIMER GIF Logo" id="decimer_logo_gif"
+                <img src="{{ asset('DECIMER.gif') }}" alt="DECIMER GIF Logo" id="decimer_logo_gif"
                     style="display: none; margin: 0 auto; max-width: 450px;" />
-                <img src="DECIMER_Clean.png" alt="DECIMER Logo" id="decimer_logo"
+                <img src="{{ asset('DECIMER_Clean.png') }}" alt="DECIMER Logo" id="decimer_logo"
                     style="display: none; margin: 0 auto; max-width: 450px;" />
             </div>
-            <img src="loading_icon.gif" alt="Loading icon" class="mx-auto" id="loading_icon" style="display: none;" />
+            <img src="{{ asset('loading_icon.gif') }}" alt="Loading icon" class="mx-auto" id="loading_icon" style="display: none;" />
 
             <!-- DECIMER LOGO (Animated gif is only shown the first time we are sent to index view) -->
             @if (!Session::get('img_paths'))
@@ -667,7 +667,7 @@
                         $current_validity = $validity_array[$key] ?? 'invalid';
                         $validity_json = json_encode(str_replace('\\', '\\\\', $current_validity));
                         ?>
-                        <iframe id='{{ $key * 2 + 1 }}' name='{{ $key * 2 + 1 }}' src="ketcher_standalone/index.html" width="100%"
+                        <iframe id='{{ $key * 2 + 1 }}' name='{{ $key * 2 + 1 }}' src="{{ asset('ketcher_standalone/index.html') }}" width="100%"
                             height="500px" style="border: 1px solid #e5e7eb; border-radius: 4px;"
                             onload="loadMol({{ $validity_json }}, '{{ $key * 2 + 1 }}')">
                         </iframe>

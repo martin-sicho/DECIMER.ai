@@ -1,0 +1,61 @@
+# Rendered by the nginx image's envsubst step into /etc/nginx/conf.d/default.conf.
+# APP_URL_PREFIX is the URL prefix the app is served under: empty for the root,
+# or e.g. "/decimer" (leading slash, no trailing slash). It is passed on to PHP,
+# where App\Http\Request uses it as the base URL for routing and generated URLs.
+
+server {
+    listen 80;
+    charset utf-8;
+
+    # Keep the client's host and port in redirects
+    absolute_redirect off;
+
+    # Redirect the bare prefix to its trailing-slash form (no-op when served at the root)
+    rewrite ^${APP_URL_PREFIX}$ ${APP_URL_PREFIX}/ permanent;
+
+    # Handle storage files (symlinked directory)
+    location ^~ ${APP_URL_PREFIX}/storage/ {
+        alias /var/www/app/storage/app/public/;
+        try_files $uri =404;
+        access_log off;
+        expires max;
+        add_header Cache-Control "public, immutable";
+    }
+
+    # Main location: static files from public/, everything else goes to Laravel
+    location ^~ ${APP_URL_PREFIX}/ {
+        alias /var/www/app/public/;
+        try_files $uri @laravel;
+
+        # Never serve PHP sources as static files
+        location ~ \.php$ {
+            return 404;
+        }
+
+        # Deny access to .htaccess
+        location ~ /\.ht {
+            deny all;
+        }
+    }
+
+    # PHP (Laravel front controller)
+    location @laravel {
+        fastcgi_pass app:9000;
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME /var/www/app/public/index.php;
+        fastcgi_param SCRIPT_NAME /index.php;
+        fastcgi_param APP_URL_PREFIX "${APP_URL_PREFIX}";
+        fastcgi_intercept_errors off;
+        fastcgi_buffer_size 16k;
+        fastcgi_buffers 4 16k;
+        fastcgi_read_timeout 300;
+        fastcgi_send_timeout 300;
+    }
+
+    # Logging
+    access_log /var/log/nginx/access.log;
+    error_log /var/log/nginx/error.log;
+
+    sendfile off;
+    client_max_body_size 100m;
+}

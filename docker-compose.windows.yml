@@ -17,6 +17,8 @@ services:
         extra_hosts:
             - "internal.host:host-gateway"
         environment:
+            # Reverse proxies whose X-Forwarded-* headers are trusted (e.g. for https behind a TLS proxy).
+            - TRUSTED_PROXIES=${TRUSTED_PROXIES-127.0.0.1,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16}
             - APP_ENV=local
             - APP_DEBUG=true
             # Max structures processed per OCSR request (0 = unlimited).
@@ -29,10 +31,13 @@ services:
         ports:
             - "${APP_PORT:-8080}:80"
         volumes:
-            - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+            - ./docker/nginx/default.conf.template:/etc/nginx/templates/default.conf.template:ro
             - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
             - ./public:/var/www/app/public:cached
             - ./storage/app/public:/var/www/app/storage/app/public:cached
+        environment:
+            # URL prefix to serve the app under (empty = root, e.g. /decimer).
+            - APP_URL_PREFIX=${APP_URL_PREFIX:-}
         depends_on:
             - app
         networks:

@@ -10,7 +10,7 @@
         
         <div class="mx-auto max-w-4xl py-8 sm:py-16">
             <div class="text-center">
-                <img src="DECIMER.png" alt="DECIMER Logo" class="mx-auto mb-8 w-64">
+                <img src="{{ asset('DECIMER.png') }}" alt="DECIMER Logo" class="mx-auto mb-8 w-64">
                 <h1 class="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">DECIMER.ai</h1>
                 <p class="mt-6 text-lg leading-8 text-gray-600">
                     An open platform for automated optical chemical structure identification, segmentation and recognition in scientific publications.
@@ -115,7 +115,7 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <div class="text-center">
                     <a href={{ url("https://github.com/Kohulan/DECIMER-Image-Segmentation") }} target="_blank" class="block hover:opacity-80 transition">
-                        <img src="DECIMER_Segmentation_logo.png" alt="DECIMER Segmentation Logo" class="mx-auto mb-4 max-h-32"/>
+                        <img src="{{ asset('DECIMER_Segmentation_logo.png') }}" alt="DECIMER Segmentation Logo" class="mx-auto mb-4 max-h-32"/>
                         <h3 class="text-xl font-semibold mb-2">DECIMER Segmentation</h3>
                         <p class="text-gray-600">Chemical structure detection and extraction</p>
                     </a>
@@ -138,7 +138,7 @@
                 </div>
                 <div class="text-center">
                     <a href={{ url("https://github.com/Kohulan/DECIMER-Image_Transformer") }} target="_blank" class="block hover:opacity-80 transition">
-                        <img src="DECIMER_Transformer_logo.png" alt="DECIMER OCSR Logo" class="mx-auto mb-4 max-h-32"/>
+                        <img src="{{ asset('DECIMER_Transformer_logo.png') }}" alt="DECIMER OCSR Logo" class="mx-auto mb-4 max-h-32"/>
                         <h3 class="text-xl font-semibold mb-2">DECIMER Transformer</h3>
                         <p class="text-gray-600">Optical chemical structure recognition</p>
                     </a>

@@ -198,10 +198,14 @@ docker-compose -f docker-compose.windows.yml up -d
 
 ### 🌐 Access Your Instance
 
-1. Open your browser to **`http://localhost:80`**
+1. Open your browser to **`http://localhost:8181/decimer/`** (Apple Silicon / Windows: **`http://localhost:8080/`**)
 2. Wait 5-10 minutes for model initialization ⏱️
 3. Upload a PDF or image containing chemical structures
 4. Download your results as SMILES strings and mol files! 🎉
+
+> **🔗 URL prefix:** The nginx container serves the app under `APP_URL_PREFIX` (default `/decimer` in `docker-compose.yml`, empty i.e. the root in the Apple Silicon and Windows files). To change it, set `APP_URL_PREFIX` (leading slash, no trailing slash; empty for the root), e.g. `APP_URL_PREFIX= docker compose up -d` serves it at `http://localhost:8181/`.
+
+> **🔒 Behind a reverse proxy (https):** Forward the original `Host` header and `X-Forwarded-Proto` (and keep the URL prefix), e.g. in nginx: `proxy_set_header Host $host; proxy_set_header X-Forwarded-Proto $scheme;`. The app trusts these headers from the proxies listed in `TRUSTED_PROXIES` (by default loopback and private networks, which covers a proxy on the Docker host).
 
 > **📊 First-Time Setup:** The initial startup loads several large neural network models. Subsequent starts will be much faster.
 

@@ -11,8 +11,8 @@
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('css/tailwind.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
-    <script src="/js/app.js?1238"></script>
-    <script src="/js/jquery.min.js"></script>
+    <script src="{{ asset('js/app.js') }}?1238"></script>
+    <script src="{{ asset('js/jquery.min.js') }}"></script>
     <link rel="icon" href="{{ asset('DECIMER_favicon.png') }}">
     <title>DECIMER Web Application</title>
     <!--Global site tag (gtag.js) - Google Analytics-->
@@ -308,7 +308,7 @@
             @endif
 
             <!-- Loading indicator -->
-            <img src="loading_icon_mini.gif" alt="Loading icon" id="header_loading_icon"
+            <img src="{{ asset('loading_icon_mini.gif') }}" alt="Loading icon" id="header_loading_icon"
                 style="display: none; visibility: hidden;" />
             <div class="text-sm text-gray-800" id="loading_text" style="display: inline;"></div>
         </div>

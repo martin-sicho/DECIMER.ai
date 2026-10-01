@@ -18,7 +18,7 @@ Only the resolved SMILES are written to stdout, in the requested format.
 Usage:
     python3 upload_file.py structure.png
     python3 upload_file.py structure.png --format csv
-    python3 upload_file.py structure.png --format json --base-url http://localhost:8080
+    python3 upload_file.py structure.png --format json --base-url http://localhost:8181/decimer
 """
 import argparse
 import csv
@@ -146,7 +146,7 @@ def main():
     parser.add_argument("image", help="A single structure image to run OCSR on")
     parser.add_argument("--format", choices=("json", "csv"), default="json",
                         help="Output format for the SMILES (default: %(default)s)")
-    parser.add_argument("--base-url", default="http://localhost:8080",
+    parser.add_argument("--base-url", default="http://localhost:8181/decimer",
                         help="App base URL (default: %(default)s)")
     parser.add_argument("--insecure", action="store_true",
                         help="Skip TLS verification (for https with self-signed certs)")
