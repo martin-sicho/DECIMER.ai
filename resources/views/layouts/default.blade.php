@@ -294,9 +294,6 @@
                                 $num_ketcher_frames = count($smiles_decoded);
                             }
                         }
-                        if ($num_ketcher_frames > 20) {
-                            $num_ketcher_frames = 20;
-                        }
                     ?>
                     <button class="btn-secondary"
                         onclick="submit_with_updated_molfiles('{{ $num_ketcher_frames }}', 'header_download_form_molfile_array')">

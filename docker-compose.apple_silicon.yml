@@ -20,6 +20,8 @@ services:
         environment:
             - APP_ENV=local
             - APP_DEBUG=true
+            # Max structures processed per OCSR request (0 = unlimited).
+            - OCSR_MAX_STRUCTURES=${OCSR_MAX_STRUCTURES:-0}
 
     nginx:
         image: nginx:alpine

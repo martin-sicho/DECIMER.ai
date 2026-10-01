@@ -28,10 +28,11 @@ class DecimerController extends Controller
         }
 
         $num_structures = count($structure_depiction_img_paths);
-        
-        // Limit to 20 structures
-        if ($num_structures > 20) {
-            $structure_depiction_img_paths = array_slice($structure_depiction_img_paths, 0, 20);
+
+        // Optionally cap the number of structures processed (0 = unlimited).
+        $max_structures = (int) config('decimer.max_structures', 0);
+        if ($max_structures > 0 && $num_structures > $max_structures) {
+            $structure_depiction_img_paths = array_slice($structure_depiction_img_paths, 0, $max_structures);
         }
 
         // CRITICAL FIX: Pass as proper JSON, not modified string
@@ -47,9 +48,9 @@ class DecimerController extends Controller
                 $smiles_array = array_fill(0, count($structure_depiction_img_paths), '');
             }
 
-            // If more than 20 structures, pad with empty strings
-            if ($num_structures > 20) {
-                for ($i = 0; $i < $num_structures - 20; $i++) {
+            // Pad the structures skipped by the cap (if any) with empty strings.
+            if ($max_structures > 0 && $num_structures > $max_structures) {
+                for ($i = 0; $i < $num_structures - $max_structures; $i++) {
                     $smiles_array[] = "";
                 }
             }
@@ -90,7 +91,7 @@ class DecimerController extends Controller
             // Log processing
             $now = new DateTime();
             $timestamp = $now->getTimestamp();
-            $num_structures_processed = min($num_structures, 20);
+            $num_structures_processed = $max_structures > 0 ? min($num_structures, $max_structures) : $num_structures;
             file_put_contents(storage_path('logs/decimer_ocsr_log.tsv'), $timestamp . "\t" . $num_structures_processed . "\t" . $num_exif_tags . "\n", FILE_APPEND | LOCK_EX);
 
             return back()

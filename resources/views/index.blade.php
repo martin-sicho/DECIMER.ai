@@ -412,9 +412,6 @@
                                         }
                                     }
                                     
-                                    if ($num_ketcher_frames > 20) {
-                                        $num_ketcher_frames = 20;
-                                    }
                                     ?>
                                     <button class="file-input"
                                         onclick="submit_with_updated_molfiles('{{ $num_ketcher_frames }}', 'download_form_molfile_array')">
@@ -495,14 +492,7 @@
                     @endif
                 @endif
 
-                @if (count($structure_img_paths_array) > 20)
-                    <div class="text-xl mb-3 text-red-800">
-                        <strong>Warning:</strong> It appears like you uploaded more than 20 chemical
-                        structure depictions (or we detected more than 20 structures in your uploaded
-                        document). Only the first 20 structures are processed. Please host your own
-                        version of this application if you want to process a large amounts of data.
-                    </div>
-                @endif
+                {{-- structure-count limit removed: all detected structures are processed --}}
                 @if ($smiles_array_str = Session::get('smiles_array'))
                     <?php
                     $smiles_array = json_decode($smiles_array_str);
@@ -540,7 +530,6 @@
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
             <!-- SMILES and Info Section -->
             <div class="lg:col-span-12">
-                @if ($key < 20)
                     @if (Session::get('smiles_array'))
                         <?php
                         $classifier_result = $classifier_result_array[$key] ?? 'True';
@@ -634,7 +623,6 @@
                             </div>
                         @endif
                     @endif
-                @endif
             </div>
 
             <!-- Image Section -->
@@ -647,7 +635,6 @@
         </div>
                     
                     @if (Session::get('smiles_array'))
-                        @if ($key < 20)
                             <?php
                             $current_validity = $validity_array[$key] ?? 'invalid';
                             $current_smiles = $smiles_array[$key] ?? '';
@@ -669,11 +656,6 @@
                                 onclick="handle_problem_report({{ $key }})">
                                 Report a problem with this result
                             </a>
-                        @else
-                            <div class="text-sm mt-2">
-                                <strong>The image has not been processed.</strong>
-                            </div>
-                        @endif
                     @endif
                 </div>
             </div>
@@ -681,7 +663,6 @@
             <!-- Ketcher Section -->
             <div class="lg:col-span-8">
                 @if ($smiles_array_str = Session::get('smiles_array'))
-                    @if ($key < 20)
                         <?php
                         $current_validity = $validity_array[$key] ?? 'invalid';
                         $validity_json = json_encode(str_replace('\\', '\\\\', $current_validity));
@@ -690,14 +671,6 @@
                             height="500px" style="border: 1px solid #e5e7eb; border-radius: 4px;"
                             onload="loadMol({{ $validity_json }}, '{{ $key * 2 + 1 }}')">
                         </iframe>
-                    @else
-                        <div class="text-xl text-red-800">
-                            <strong>Warning:</strong> It appears like you uploaded more than 20 chemical
-                            structure depictions (or we detected more than 20 structures in your uploaded
-                            document). Only the first 20 structures are processed. Please host your own
-                            version of this application if you want to process large amounts of data.
-                        </div>
-                    @endif
                 @endif
             </div>
         </div>

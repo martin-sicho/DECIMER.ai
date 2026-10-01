@@ -20,8 +20,8 @@ def convert_pdf_to_images(pdf_path: str):
     base_path = os.path.join(pdf_dir, "../../storage/app/")
     full_pdf_path = os.path.join(base_path, pdf_path)
 
-    # Convert PDF to images (limit to 10 pages)
-    page_images = convert_from_path(full_pdf_path, 300, last_page=10)
+    # Convert PDF to images (all pages)
+    page_images = convert_from_path(full_pdf_path, 300, last_page=None)
 
     im_paths = []
     save_dir = "/var/www/app/storage/app/public/media/"
